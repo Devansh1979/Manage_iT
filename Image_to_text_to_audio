@@ -1,0 +1,164 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Image to text to audio.ipynb",
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Devansh1979/Manage_iT/blob/master/Image_to_text_to_audio\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!sudo apt install tesseract-ocr\n",
+        "!pip install pytesseract\n",
+        "!pip install Pillow==9.0.0\n",
+        "!pip install gTTS"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "s2eYBmwDWDAJ",
+        "outputId": "8a41cacf-11ca-45d2-f035-ba79df41d441"
+      },
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Reading package lists... Done\n",
+            "Building dependency tree... Done\n",
+            "Reading state information... Done\n",
+            "tesseract-ocr is already the newest version (4.1.1-2.1build1).\n",
+            "0 upgraded, 0 newly installed, 0 to remove and 45 not upgraded.\n",
+            "Requirement already satisfied: pytesseract in /usr/local/lib/python3.10/dist-packages (0.3.10)\n",
+            "Requirement already satisfied: packaging>=21.3 in /usr/local/lib/python3.10/dist-packages (from pytesseract) (24.0)\n",
+            "Requirement already satisfied: Pillow>=8.0.0 in /usr/local/lib/python3.10/dist-packages (from pytesseract) (9.0.0)\n",
+            "Requirement already satisfied: Pillow==9.0.0 in /usr/local/lib/python3.10/dist-packages (9.0.0)\n",
+            "Requirement already satisfied: gTTS in /usr/local/lib/python3.10/dist-packages (2.5.1)\n",
+            "Requirement already satisfied: requests<3,>=2.27 in /usr/local/lib/python3.10/dist-packages (from gTTS) (2.31.0)\n",
+            "Requirement already satisfied: click<8.2,>=7.1 in /usr/local/lib/python3.10/dist-packages (from gTTS) (8.1.7)\n",
+            "Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.10/dist-packages (from requests<3,>=2.27->gTTS) (3.3.2)\n",
+            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.10/dist-packages (from requests<3,>=2.27->gTTS) (3.7)\n",
+            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests<3,>=2.27->gTTS) (2.0.7)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests<3,>=2.27->gTTS) (2024.6.2)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 10,
+      "metadata": {
+        "id": "DwgN11GcUIvf",
+        "outputId": "dc5b8738-09d7-44ac-f558-92106944065a",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "pygame 2.5.2 (SDL 2.28.2, Python 3.10.12)\n",
+            "Hello from the pygame community. https://www.pygame.org/contribute.html\n"
+          ]
+        }
+      ],
+      "source": [
+        "import pytesseract\n",
+        "from PIL import Image\n",
+        "import pygame\n",
+        "import gtts\n",
+        "#import pyttsx3\n",
+        "#from googletrans import Translator"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "img = Image.open('/content/Picture2.png')\n",
+        "print(img)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "UCVJlIoWUaO0",
+        "outputId": "3cd078f0-47ae-4a8e-d3db-58edad000c17"
+      },
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "<PIL.PngImagePlugin.PngImageFile image mode=RGB size=700x440 at 0x77FF297B27D0>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "result = pytesseract.image_to_string(Image.open('/content/Picture2.png'))\n",
+        "print(result)\n",
+        "tts = gtts.gTTS(result)\n",
+        "tts.save(\"hello.mp3\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "YlcdrEN5Uw6-",
+        "outputId": "21b9d33b-4e18-4120-fd4c-068216825be7"
+      },
+      "execution_count": 14,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "It was the best of\n",
+            "times, it was the worst\n",
+            "of times, it was the age\n",
+            "of wisdom, it was the\n",
+            "age of foolishness...\n",
+            "\f\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "509V9dD8hjL7"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
